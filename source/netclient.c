@@ -483,9 +483,22 @@ static Q_BOOL upnp_init() {
      *
      */
     device_list = upnpDiscover(2000, NULL, NULL, 0, 0, 2, NULL);
+#else
+#  if (MINIUPNPC_API_VERSION == 16)
+   /*
+    * Version 16
+    *
+    * upnpDiscover(int delay, const char * multicastif,
+    *              const char * minissdpdsock, int localport,
+    *             int ipv6, unsigned char ttl,
+    *             int * error);
+    *
+    */
+    device_list = upnpDiscover(2000, NULL, NULL, 0, 0, 2, NULL);
 #  else
 #    error "Unsupported miniupnpc API version.  Consider disabling UPNP (--disable-upnp), or file an issue at https://github.com/klamonte/qodem/issues" .
 #  endif
+#endif
 #endif
 
     if (device_list != NULL) {
